@@ -24,7 +24,6 @@ disp('  >>  start loading images ...');
 All_img_org = cell(SET_NUM, 1);     
 All_img_ret = cell(SET_NUM, OP_NUM);
 All_smap = cell(SET_NUM, 1);        
-load('..\pre-calculated_data\RetargetMe_Saliency_Maps\gbvs_smap\All_imp_gbvs.mat')
 
 for set_num = 1:SET_NUM
     disp(['  >> Loading #' num2str(set_num, '%03.0f') ' set --- ' PATH_NAME{set_num} '.']);
@@ -52,6 +51,12 @@ for set_num = 1:SET_NUM
     smap = imread([smap_path PATH_NAME{set_num} '_smap.png']);
     All_img_org{set_num} = im_org;
     All_smap{set_num} = smap;
+end
+%gbvs
+All_imp_gbvs = cell(SET_NUM,1);
+parfor set_num = 1:SET_NUM
+    All_imp_gbvs{set_num} = gbvs(All_img_org{set_num});
+    All_imp_gbvs{set_num} = All_imp_gbvs{set_num}.master_map_resized;
 end
 %load foreground object detection   
 All_fod = cell(SET_NUM,1);
